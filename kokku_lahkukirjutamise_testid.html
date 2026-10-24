@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="et">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kokku- ja lahkukirjutamise testid</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:850px;margin:0 auto;padding:24px;line-height:1.5;color:#202124;background:#f8f9fa}h1,h2{line-height:1.2}.intro,.test,.result{background:white;border:1px solid #dadce0;border-radius:12px;padding:20px;margin:16px 0}.q{padding:14px 0;border-top:1px solid #eee}.q:first-child{border-top:0}.option{display:block;padding:6px 0}.btn{background:#1a73e8;color:white;border:0;border-radius:7px;padding:11px 16px;font-size:1rem;cursor:pointer;margin:8px 8px 0 0}.secondary{background:#5f6368}.feedback{margin-top:6px;font-size:.95rem}.correct{color:#137333}.wrong{color:#b3261e}.answer-key{display:none;background:#f1f3f4;padding:14px;border-radius:8px;margin-top:14px}.muted{color:#5f6368;font-size:.95rem}
+</style></head><body>
+<h1>Kokku- ja lahkukirjutamine</h1>
+<div class="intro"><p><b>Kolm iseseisvat testi</b> kokku 30 küsimusega. Vali igas küsimuses õigesti kirjutatud variant ja vajuta testi lõpus „Kontrolli vastuseid”. Vastuste võti avaneb testi lõpus.</p><p class="muted">Koostatud sinu üles laaditud kokku- ja lahkukirjutamise reeglite kokkuvõtte põhjal.</p></div>
+<div id="app"></div>
+<script>
+const tests = [
+{title:'Test 1. Nimisõnad ja omadussõnad', qs:[
+['Milline sõna on õigesti kirjutatud?',['klapp tool','klapptool','klapp-tool'],1,'Lühitüveline nimisõna kirjutatakse järgneva nimisõnaga kokku.'],
+['Milline sõna on õigesti kirjutatud?',['hapukoor','hapu koor','hapu-koor'],0,'Hapukoor on kindlakskujunenud liitsõna.'],
+['Kuidas kirjutada, kui pakk kuulub õele?',['õepakk','õe pakk','õe-pakk'],1,'Kuuluvust väljendav ühend kirjutatakse lahku.'],
+['Milline variant on õige?',['pühade kaart','pühadekaart','pühade-kaart'],1,'Pühadekaart on kinnistunud liitsõna.'],
+['Milline ühend kirjutatakse tavaliselt lahku?',['vanadekodu','keeltekool','õpetajate tuba'],2,'Mitmuse omastavas täiendiga ühend kirjutatakse tavaliselt lahku.'],
+['Milline omadussõna on õigesti kirjutatud?',['vihmakindel','vihma kindel','vihma-kindel'],0,'Vihmakindel kirjutatakse kokku.'],
+['Milline ühend on õige?',['sügavvesi','sügav vesi','sügav-vesi'],1,'Omadussõna ja nimisõna kirjutatakse tavaliselt lahku.'],
+['Milline variant on õige?',['vähemoluline','vähem oluline','vähem-oluline'],1,'Võrdlusastmes omadussõna kirjutatakse lahku.'],
+['Milline sõna on õigesti kirjutatud?',['prantsuse keelne','prantsuskeelne','prantsus-keelne'],1,'-ne-lõpuline omadussõna kirjutatakse eelneva sõnaga kokku.'],
+['Milline ühend on õige?',['punasesõstar','punane sõstar','punane-sõstar'],1,'Tavaline omadussõna ja nimisõna kirjutatakse lahku.']
+]},
+{title:'Test 2. Arvsõnad ja muutumatud sõnad', qs:[
+['Milline arvsõna on õigesti kirjutatud?',['viis teist','viisteist','viis-teist'],1,'-teist kirjutatakse eelneva arvsõnaga kokku.'],
+['Milline arv kirjutatakse lahku?',['veerandsada','seitse tuhat','viisteist'],1,'Tuhat kirjutatakse eelnevast arvsõnast lahku.'],
+['Milline variant on õige?',['kakskümmend kolm','kakskümmendkolm','kakskümmend-kolm'],0,'Mitmesõnaline arv kirjutatakse lahku.'],
+['Milline väljend on õigesti kirjutatud?',['samahästi','sama hästi','sama-hästi'],1,'Tavaline määrsõnaühend kirjutatakse lahku.'],
+['Milline sõna kirjutatakse kokku?',['peale kauba','pealekauba','peale-kauba'],1,'Kokku sulanud määrsõnaline väljend kirjutatakse kokku.'],
+['Milline kaassõnaühend on õige?',['lauapeal','laua peal','laua-peal'],1,'Kaassõna kirjutatakse käändsõnast lahku.'],
+['Milline variant on õigesti kirjutatud?',['aegajalt','aeg ajalt','aeg-ajalt'],2,'Selles korduva tüvega sõnaühendis kasutatakse sidekriipsu.'],
+['Milline väljend on õige?',['päevastpäeva','päevast päeva','päevast-päeva'],1,'Muudes käändevormides kirjutatakse korduvad sõnavormid lahku.'],
+['Milline variant on õige?',['IT-teemaline','ITteemaline','IT teemaline'],0,'Täheühend ühendatakse line-lõpulise omadussõnaga sidekriipsu abil.'],
+['Milline variant on õige?',['22 liikmeline','22-liikmeline','22liikmeline'],1,'Number ühendatakse line-lõpulise omadussõnaga sidekriipsu abil.']
+]},
+{title:'Test 3. Tegusõnad ja kordamine', qs:[
+['Milline ühend on õige?',['läksidlahku','läksid lahku','läksid-lahku'],1,'Ühendtegusõna osad kirjutatakse harilikult lahku.'],
+['Milline variant on õige?',['läbi mõtlema','läbimõtlema','läbi-mõtlema'],0,'Ühendtegusõna osad kirjutatakse lahku.'],
+['Milline liittegusõna on õigesti kirjutatud?',['ala hindama','alahindama','ala-hindama'],1,'Liittegusõna osad kirjutatakse kokku.'],
+['Milline ühend on õige?',['heakskiidetud','heaks kiidetud','heaks-kiidetud'],1,'Ühend- ja väljendtegusõna osad kirjutatakse lahku.'],
+['Milline väljend on õige?',['allaanda','alla anda','alla-anda'],1,'Ühendtegusõna osad kirjutatakse lahku.'],
+['Milline tuletis on õigesti kirjutatud?',['kaasamõtlemine','kaasa mõtlemine','kaasa-mõtlemine'],0,'Ühend- ja väljendtegusõnast moodustatud tuletis kirjutatakse kokku.'],
+['Milline ühend on õige?',['jalgsi käimine','jalgsi-käimine','jalgsikäimine'],0,'Muust tegusõnaühendist moodustatud tuletis kirjutatakse üldjuhul lahku.'],
+['Milline variant on õige?',['üleslugedes','üles lugedes','üles-lugedes'],1,'Ühendtegusõna osad kirjutatakse lahku.'],
+['Milline ühend on õigesti kirjutatud?',['isikut tõendav dokument','isikutõendav dokument','isikut-tõendav dokument'],0,'Kesksõnaühendid, mis ei kuulu ühend- ega väljendtegusõnade hulka, kirjutatakse lahku.'],
+['Milline variant on õige?',['päev-päevalt','päevapäevalt','päev päevalt'],0,'Nimetavas ja alaltütlevas käändes korduva tüvega sõna kirjutatakse sidekriipsuga.']
+]}
+];
+const app=document.getElementById('app');
+tests.forEach((test,ti)=>{const section=document.createElement('section');section.className='test';section.innerHTML=`<h2>${test.title}</h2><p class="muted">${test.qs.length} küsimust · ${test.qs.length} punkti</p>`;
+test.qs.forEach((q,qi)=>{const d=document.createElement('div');d.className='q';d.innerHTML=`<p><b>${qi+1}. ${q[0]}</b></p>`;q[1].forEach((o,oi)=>{d.innerHTML+=`<label class="option"><input type="radio" name="q${ti}_${qi}" value="${oi}"> ${o}</label>`});d.innerHTML+=`<div class="feedback" id="f${ti}_${qi}"></div>`;section.appendChild(d)});
+const button=document.createElement('button');button.className='btn';button.textContent='Kontrolli vastuseid';button.onclick=()=>{let score=0;test.qs.forEach((q,qi)=>{const picked=section.querySelector(`input[name="q${ti}_${qi}"]:checked`);const fb=document.getElementById(`f${ti}_${qi}`);if(picked&&Number(picked.value)===q[2]){score++;fb.className='feedback correct';fb.textContent='Õige! '+q[3]}else{fb.className='feedback wrong';fb.textContent='Õige vastus: '+q[1][q[2]]+'. '+q[3]}});const result=section.querySelector('.result');result.textContent=`Tulemus: ${score}/${test.qs.length} punkti (${Math.round(score/test.qs.length*100)}%).`;result.style.display='block';};section.appendChild(button);
+const reset=document.createElement('button');reset.className='btn secondary';reset.textContent='Alusta testi uuesti';reset.onclick=()=>{section.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);section.querySelectorAll('.feedback').forEach(x=>x.textContent='');section.querySelector('.result').style.display='none'};section.appendChild(reset);
+const result=document.createElement('div');result.className='result';result.style.display='none';section.appendChild(result);
+const key=document.createElement('div');key.className='answer-key';key.innerHTML='<b>Vastuste võti</b><ol>'+test.qs.map(q=>`<li>${q[1][q[2]]} — ${q[3]}</li>`).join('')+'</ol>';const kb=document.createElement('button');kb.className='btn secondary';kb.textContent='Näita vastuste võtit';kb.onclick=()=>{key.style.display=key.style.display==='block'?'none':'block';kb.textContent=key.style.display==='block'?'Peida vastuste võti':'Näita vastuste võtit'};section.appendChild(kb);section.appendChild(key);app.appendChild(section)});
+</script></body></html>
